@@ -4,26 +4,38 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.Properties;
+
 
 public class Util {
 
-    private final String hostName = "jdbc:mysql://localhost/pre_project?serverTimezone=UTC";
-    private final String userName = "root";
-    private final String password = "indie4ever";
+    private static final String hostName = "jdbc:mysql://localhost/pre_project?serverTimezone=UTC";
+    private static final String userName = "root";
+    private static final String password = "indie4ever";
 
-    private Connection connection;
+    private static Connection connection;
 
-    public Connection getConnection() {
+    static {
+        try {
+            connection = DriverManager.getConnection(hostName, userName, password);
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Connection getConnection() throws SQLException {
+        if (connection.isClosed()) {
+                connection = DriverManager.getConnection(hostName, userName, password);
+        }
         return connection;
     }
 
-    public Util() {
-        try {
-            connection = DriverManager.getConnection(hostName, userName, password);
-            System.out.println("connection ok");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("connection error");
-        }
+    public Util()  {
     }
+
+
+
+    // Конфигурация hibernate
+    
 }
