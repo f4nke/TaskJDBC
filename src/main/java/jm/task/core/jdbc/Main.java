@@ -17,12 +17,12 @@ public class Main {
         UserImpl.saveUser("Petr", "Petrov", (byte) 20);
         UserImpl.saveUser("Sidr", "Sidorov", (byte) 20);
         UserImpl.saveUser("Pavel", "Pavlov", (byte) 20);
-        // получение и вывод юзеров
-        System.out.println(UserImpl.getAllUsers());
-        // очистка таблицы
-        UserImpl.cleanUsersTable();
-        // удаление таблицы
-        UserImpl.dropUsersTable();
+//        // получение и вывод юзеров
+//        System.out.println(UserImpl.getAllUsers());
+//        // очистка таблицы
+//        UserImpl.cleanUsersTable();
+//        // удаление таблицы
+//        UserImpl.dropUsersTable();
 
 
     }
