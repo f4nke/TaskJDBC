@@ -11,18 +11,19 @@ public class Main {
 
         UserServiceImpl UserImpl = new UserServiceImpl();
         //создание таблицы
-        UserImpl.createUsersTable();
+//        UserImpl.createUsersTable();
         // добавление 4-х юзеров
-        UserImpl.saveUser("Ivan2", "Ivanov", (byte) 20);
-        UserImpl.saveUser("Petr", "Petrov", (byte) 20);
-        UserImpl.saveUser("Sidr", "Sidorov", (byte) 20);
-        UserImpl.saveUser("Pavel", "Pavlov", (byte) 20);
+//        UserImpl.saveUser("Ivan", "Ivanov", (byte) 20);
+//        UserImpl.saveUser("Petr", "Petrov", (byte) 20);
+//        UserImpl.saveUser("Sidr", "Sidorov", (byte) 20);
+//        UserImpl.saveUser("Pavel", "Pavlov", (byte) 20);
 //        // получение и вывод юзеров
 //        System.out.println(UserImpl.getAllUsers());
 //        // очистка таблицы
-//        UserImpl.cleanUsersTable();
+        UserImpl.cleanUsersTable();
 //        // удаление таблицы
 //        UserImpl.dropUsersTable();
+//        UserImpl.removeUserById(2);
 
 
     }
