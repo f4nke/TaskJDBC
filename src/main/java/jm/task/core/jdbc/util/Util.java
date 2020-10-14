@@ -27,10 +27,14 @@ public class Util {
         }
     }
 
-    public static Connection getConnection() throws SQLException {
-        if (connection.isClosed()) {
+    public static Connection getConnection() {
+        try {
+            if (connection.isClosed()) {
                 connection = DriverManager.getConnection(hostName, userName, password);
                 connection.setAutoCommit(false);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return connection;
     }

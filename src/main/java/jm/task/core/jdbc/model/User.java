@@ -9,13 +9,10 @@ public class User {
     @GeneratedValue
     private Long id;
 
-    @Column
     private String name;
 
-    @Column
     private String lastName;
 
-    @Column
     private Byte age;
 
     public User() {

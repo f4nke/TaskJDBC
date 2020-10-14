@@ -15,66 +15,93 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void createUsersTable() {
+            Connection conn = Util.getConnection();
 
-        String sqlCreate = "CREATE TABLE IF NOT EXISTS users " +
-                "(id BIGINT(19) not NULL AUTO_INCREMENT, name VARCHAR(70) not NULL, " +
-                "lastname VARCHAR(70) not NULL, age TINYINT, " +
-                "PRIMARY KEY (id))";
+            String sqlCreate = "CREATE TABLE IF NOT EXISTS users " +
+                    "(id BIGINT(19) not NULL AUTO_INCREMENT, name VARCHAR(70) not NULL, " +
+                    "lastname VARCHAR(70) not NULL, age TINYINT, " +
+                    "PRIMARY KEY (id))";
 
-        try (Connection conn = Util.getConnection();
-            Statement st = conn.createStatement()) {
-            st.executeUpdate(sqlCreate);
-            conn.commit();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            try (Statement st = conn.createStatement()) {
+                st.executeUpdate(sqlCreate);
+                conn.commit();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                try {
+                    conn.rollback();
+                    conn.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
     }
 
     public void dropUsersTable() {
+        Connection conn = Util.getConnection();
         String dropSql = "DROP TABLE IF EXISTS users";
 
-        try (Connection conn = Util.getConnection();
-            Statement st = conn.createStatement()) {
+        try (Statement st = conn.createStatement()) {
             st.executeUpdate(dropSql);
             conn.commit();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                conn.rollback();
+                conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
     public void saveUser(String name, String lastName, byte age) {
-
+        Connection conn = Util.getConnection();
         String sqlSave = "INSERT users (name, lastName, age) " +
                 "VALUES ('" + name + "', " + "'" + lastName + "', " + age + ")";
 
-        try (Connection conn = Util.getConnection();
-             Statement st = conn.createStatement()) {
+        try (Statement st = conn.createStatement()) {
             st.executeUpdate(sqlSave);
             conn.commit();
             System.out.printf("User с именем %s добавлен в базу данных" + "\n", name);
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                conn.rollback();
+                conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
     public void removeUserById(long id) {
+        Connection conn = Util.getConnection();
         String deleteSql = "DELETE FROM users WHERE id = " + id;
 
-        try (Connection conn = Util.getConnection();
-            Statement st = conn.createStatement()) {
+        try (Statement st = conn.createStatement()) {
             st.executeUpdate(deleteSql);
             conn.commit();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                conn.rollback();
+                conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
     public List<User> getAllUsers() {
-
+        Connection conn = Util.getConnection();
         List<User> list = new ArrayList<>();
         String sqlSelect = "SELECT name, lastname, age FROM users";
-        try (Connection conn = Util.getConnection();
-            Statement st = conn.createStatement()) {
+
+        try (Statement st = conn.createStatement()) {
             ResultSet rs = st.executeQuery(sqlSelect);
             while (rs.next()) {
                 User user = new User();
@@ -84,21 +111,35 @@ public class UserDaoJDBCImpl implements UserDao {
                 list.add(user);
             }
             conn.commit();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                conn.rollback();
+                conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         return list;
     }
 
     public void cleanUsersTable() {
+        Connection conn = Util.getConnection();
         String truncateSql = "TRUNCATE TABLE users";
 
-        try (Connection conn = Util.getConnection();
-             Statement st = conn.createStatement()) {
+        try (Statement st = conn.createStatement()) {
             st.executeUpdate(truncateSql);
             conn.commit();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                conn.rollback();
+                conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }
